@@ -7,7 +7,7 @@ On one side, in an on-premises Cloud we may have a lot of private IP addresses b
 IP Floater consists of a server that enables associating a public accessible IP address managed by the IP Floater host to a private IP in the LAN. Later this IP can be associated to other private IP in the LAN.
 
 ## Use case
-The use case is shown in the figure
+The use case is shown in the figure.
 ![IMAGE](https://github.com/dealfonso/ipfloater/blob/devel/img/ipfloater.jpg?raw=true =200x)
 
 In that use case, we have multiple Virtual Machines, but in particular we have a web server (with private IP 192.168.1.40) and the front-end of a virtual cluster that is connected to its working nodes (with private IP 192.168.1.32). We need to access the web server and the front-end from the internet, but we do not need to access to the working nodes. The most common way is to access to the working nodes from the front-end.
@@ -31,30 +31,30 @@ We'll assume eth0 for the interface that has access to the public network and et
 ### Installing
 
 ```bash
-$ apt-get install python python-pip iptables
-$ pip install --upgrade python-iptables cpyutils
-$ git clone https://github.com/dealfonso/ipfloater
+$ sudo apt-get update && apt-get install python python-pip iptables git
+$ sudo pip install --upgrade python-iptables cpyutils
+$ sudo git clone https://github.com/dealfonso/ipfloater
 $ cd ipfloater
-$ python setup.py install --record installed-files.txt
+$ sudo python setup.py install --record installed-files.txt
 ```
 
-Now you have to create a configuration file in /etc/ipfloater.conf. You can start from the /etc/default/ipfloater.conf file
+Now you have to create a configuration file in /etc/ipfloaterd.conf. You can start from the /etc/default/ipfloaterd.conf file.
 
 ```bash
-$ cp /etc/default/ipfloater.conf /etc/ipfloater.conf
+$ cp /etc/default/ipfloaterd.conf /etc/ipfloaterd.conf
 ```
 
 And you must edit the IP_POOL variable to set the comma separated pool of IP addresses.
 
 Finally you can start the daemon:
 ```bash
-$ ipfloaterd start
+$ sudo service ipfloaterd start
 ```
 # Using IPFloater
 
 IPFloater has a command line application whose help is self-contained
 ```
-This the client for ipfloaterd, which is a server that deals with iptables to enable floating IPs in private networks
+This is the client for ipfloaterd, which is a server that deals with iptables to enable floating IPs in private networks
 
 Usage: ipfloater [-h] [--server-ip <value>] [--server-port <value>] [getip|releaseip|status|version|ippool]
 
@@ -70,11 +70,11 @@ Usage: ipfloater [-h] [--server-ip <value>] [--server-port <value>] [getip|relea
 		<ip> - private ip address to which is granted the floating ip
 
 	* Gets the status of the redirections
-	  Usage: status 
+	  Usage: status
 
 	* Gets the version of the client and the server
-	  Usage: version 
+	  Usage: version
 
 	* Gets the public ip addresses in the pool
-	  Usage: ippool 
+	  Usage: ippool
 ```
